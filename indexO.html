@@ -1,0 +1,266 @@
+<!--
+ * endLine Mobile App  
+ * Valentin Perez
+ * Valpe Technologies, LLC
+ * Summer 2014
+ *
+ *-->
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>endLine</title>
+        <!--<link href="mobileLocalCSS.css" rel="stylesheet">-->
+        <link href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Lato:700' rel='stylesheet' type='text/css'>
+
+        <meta name="viewport" content="width=device-width">
+        <meta name="apple-mobile-web-app-capable"   content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style"  content="black"/>
+
+        <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="MobLocScript.js"></script>
+
+    </head>
+    <!-- Home -->
+    <body>
+
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <a id="citybutton" data-role="button" data-inline="true" data-transition="slide" data-direction="reverse" href="#inputpage"
+                data-icon="bars" data-iconpos="left" class="ui-btn-left">
+                    Settings
+                </a>
+                <a data-role="button" href="#infopage" data-icon="info" data-iconpos="left" data-transition="flip" 
+                class="ui-btn-right">
+                </a>
+                <h3>
+                    endLine
+                </h3>
+
+            </div>
+            <a data-role="button" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_4GUzwzzu6Fx9AN0sSaO7a47VMcWwVt4y&scope=read_write&state=1234" id="connectWithStripeButton"> Connect with Stripe</a>
+                <div data-role="content">
+                    <!--<div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input id="weatherradio" name="WeatherOrNews" value="radiow" data-theme="a"
+                            type="radio">
+                            <label for="weatherradio">
+                                Weather
+                            </label>
+                            <input id="newsradio" name="WeatherOrNews" value="radion" data-theme="a"
+                            type="radio">
+                            <label for="newsradio">
+                                News
+                            </label>
+                        </fieldset>-->
+                    </div>
+                    <form>
+                        <fieldset id="orders" data-role="controlgroup">
+                            <legend>Orders:</legend>
+                            <input type="checkbox" onclick="deleteCheckBox()" name="checkbox-t-2a" id="checkbox-t-2a" data-theme="a">
+                            <label for="checkbox-t-2a">One</label>
+                            <input type="checkbox"  onclick="connectWithStripe()" name="checkbox-t-2b" id="checkbox-t-2b" data-theme="a">
+                            <label for="checkbox-t-2b">Two</label>
+                            <input type="checkbox" onclick="deleteCheckBox2()" name="checkbox-t-2c" id="checkbox-t-2c" data-theme="a">
+                            <label for="checkbox-t-2c">Three</label>
+                        </fieldset>
+                    </form>
+                    <ul id = "newsul" data-role="listview" data-divider-theme="b" data-inset="true">
+                    </ul>
+                    <div id="weathercollapsible" data-role="collapsible-set" data-theme="a" data-content-theme="b">
+                        <div id="currently" data-role="collapsible" data-collapsed="false">
+                            <h3>
+                                Currently
+                            </h3>
+                            <p id="currentlyp">
+                            </p>
+                        </div>
+                        <div id="daily" data-role="collapsible" data-collapsed="false">
+                            <h3>
+                                Daily
+                            </h3>
+                            <p id="dailyp">
+                        </div>
+                        <div id="hourly" data-role="collapsible" data-collapsed="false">
+                            <h3>
+                                Hourly
+                            </h3>
+                            <p id="hourlyp">
+                        </div>
+                        <div id="minutely" data-role="collapsible" data-collapsed="false">
+                            <h3>
+                                Minutely
+                            </h3>
+                            <p id="minutelyp">
+                        </div>
+                    </div>
+
+                </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <h5 id="current_city"></h5>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="inputpage">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <a id="homebutton" data-role="button" data-inline="true" data-transition="slide" href="#page1"
+                data-icon="arrow-r" data-iconpos="left" class="ui-btn-right">
+                    home
+                </a>
+                <h3>
+                    Mobile Local
+                </h3>
+            </div>
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <input name="input" id="input" placeholder="Write city or zip code" value=""
+                    type="text">
+                </div>
+                <input id="submitbutton" type="submit" value="Submit">
+                <a id = "currentlocationbutton" data-role="button" data-inline="true" data-theme= "a" data-transition="pop" data-direction="reverse" href="#page1"
+                data-icon="star" data-iconpos="left" class="ui-btn-left">
+                 Use Current Location
+                </a>
+
+                <a id="clearrecentsearches" data-role="button" data-inline="true" data-transition="flip" data-direction="reverse" class="ui-btn-left">
+                    Clear Recent Searches
+                </a>
+
+                <h4>Recent Searches: </h4>
+                <ul id = "recentsearchesul" data-role="listview" data-inset="true">
+                </ul>   
+            </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <h5 id="current_cityi"></h5>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="infopage">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <a data-role="button" data-inline="true" data-transition="flip" data-direction="reverse" href="#page1"
+                data-icon="back" data-iconpos="left" class="ui-btn-left">
+                    Back
+                </a>
+                <h3>
+                    Mobile Local
+                </h3>
+            </div>
+            <br>
+            Developed by Valentin Perez
+            Valpe Technologies, LLC
+        </div>
+        <script language="javascript" type="text/javascript">
+            function connectWithStripe(){
+                var url = " https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_4GUzwzzu6Fx9AN0sSaO7a47VMcWwVt4y&scope=read_write&state=1234
+            ";
+            alert('holaasdas d');
+            console.log('dsfas');
+                $.get(url, function(data){
+                    console.log("data>>>>:");
+                    console.log(data);
+                      alert( "Data Loaded: " + data );
+
+
+                });
+
+
+
+            }
+
+        </script>
+    <!--<script type="text/javascript">
+    Parse.initialize("N98A1TIFGV03dKmHbXHJR5gQmVWrC3Qi4uNGpM8b", "UVxS7NXPEMcU339KxcDd0JMzMxQkSTtKFfmk2oT7");
+    
+    var TestObject = Parse.Object.extend("WebTestObject");
+    var testObject = new TestObject();
+      testObject.save({foo: "guacamolesss"}, {
+      success: function(object) {
+        $(".success").show();
+      },
+      error: function(model, error) {
+        $(".error").show();
+      }
+    });
+      
+    var Order = Parse.Object.extend("Order");
+    var query = new Parse.Query(Order);
+    query.equalTo("placeID", "Peet's Coffee & Tea Cambridge");
+    query.find({
+      success: function(results) {
+        alert("Successfully retrieved " + results.length + " orders.");
+        // Do something with the returned Parse.Object values
+        for (var i = 0; i < results.length; i++) { 
+          var object = results[i];
+    //      alert(object.id + ' - ' + object.get('order'));
+          console.log('whewr');
+          var orders = $('#orders');
+            
+          var order =   '<input type="checkbox" name="checkbox-t-2a" id="checkbox-t-2a" data-theme="a">
+                            <label for="checkbox-t-2a">'+ results[i].get("order") +'</label>';
+             orders.append(order);
+             orders.show();
+
+        }
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });*/
+  </script>-->
+
+   <!-- <script type="text/javascript">
+    Parse.initialize("N98A1TIFGV03dKmHbXHJR5gQmVWrC3Qi4uNGpM8b", "UVxS7NXPEMcU339KxcDd0JMzMxQkSTtKFfmk2oT7");
+    
+    var TestObject = Parse.Object.extend("WebTestObject");
+    var testObject = new TestObject();
+      testObject.save({foo: "mermelada"}, {
+      success: function(object) {
+        $(".success").show();
+      },
+      error: function(model, error) {
+        $(".error").show();
+      }
+    });
+          console.log('sacagawea');
+
+    var Order = Parse.Object.extend("Order");
+    var query = new Parse.Query(Order);
+    query.equalTo("placeID", "Peet's Coffee & Tea Cambridge");
+    query.find({
+      success: function(results) {
+        alert("Successfully retrieved " + results.length + " orders.");
+        // Do something with the returned Parse.Object values
+        for (var i = 0; i < results.length; i++) { 
+          var object = results[i];
+          alert(object.id + ' - ' + object.get('order'));
+          console.log('whewr');
+          var orders = $('#orders');
+            //var newli = '<li data-theme="a"><a target= "_blank" href="'+news[i].link+'" rel = "external" data-transition="slide">'+news[i].title+/*'<br>'+news[i].description+*/'</a></li>';
+                   // newsul.append(newli); 
+          var order =   '<input type="checkbox" name="checkbox-t-2a" id="checkbox-t-2a" data-theme="a">
+                            <label for="checkbox-t-2a">'+ results[i].get("order") +'</label>';
+             orders.append(order);
+             orders.show();
+
+        }
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });
+
+
+  </script>-->
+            
+    </body>
+
+</html>
